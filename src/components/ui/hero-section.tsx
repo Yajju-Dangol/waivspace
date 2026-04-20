@@ -47,7 +47,7 @@ export function HeroSection({ isMobile }: HeroSectionProps) {
 
         {/* CTA Button */}
         <div className="mt-8 md:mt-6 relative z-50">
-          <MagneticButton className="footer-glass-pill rounded-full px-8 py-5 md:px-12 md:py-6 bg-transparent text-white border-none font-poppins font-medium text-base md:text-lg">
+          <MagneticButton className="footer-glass-pill rounded-full px-8 py-3 md:px-12 md:py-4 bg-transparent text-white border-none font-poppins font-medium text-base md:text-lg">
             Get Started
           </MagneticButton>
         </div>
