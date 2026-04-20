@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+@theme {
+  --font-poppins: "Poppins", sans-serif;
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+html, body, #root {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Hide scrollbar while preserving scroll */
+html, body {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+:root {
+  --pill-bg-1: rgba(255, 255, 255, 0.05);
+  --pill-bg-2: rgba(255, 255, 255, 0.02);
+  --pill-shadow: rgba(0, 0, 0, 0.5);
+  --pill-highlight: rgba(255, 255, 255, 0.1);
+  --pill-inset-shadow: rgba(0, 0, 0, 0.8);
+  --pill-border: rgba(255, 255, 255, 0.1);
+  
+  --pill-bg-1-hover: rgba(255, 255, 255, 0.12);
+  --pill-bg-2-hover: rgba(255, 255, 255, 0.04);
+  --pill-border-hover: rgba(255, 255, 255, 0.25);
+  --pill-shadow-hover: rgba(0, 0, 0, 0.7);
+  --pill-highlight-hover: rgba(255, 255, 255, 0.2);
+}
+
+.footer-glass-pill {
+  background: linear-gradient(145deg, var(--pill-bg-1) 0%, var(--pill-bg-2) 100%);
+  box-shadow: 
+      0 10px 30px -10px var(--pill-shadow), 
+      inset 0 1px 1px var(--pill-highlight), 
+      inset 0 -1px 2px var(--pill-inset-shadow);
+  border: 1px solid var(--pill-border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-glass-pill:hover {
+  background: linear-gradient(145deg, var(--pill-bg-1-hover) 0%, var(--pill-bg-2-hover) 100%);
+  border-color: var(--pill-border-hover);
+  box-shadow: 
+      0 20px 40px -10px var(--pill-shadow-hover), 
+      inset 0 1px 1px var(--pill-highlight-hover);
+}
