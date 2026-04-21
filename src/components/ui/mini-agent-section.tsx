@@ -45,6 +45,10 @@ export function MiniAgentSection() {
         style={{ background: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.9) 70%, black 100%)' }}
       />
 
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-white/5 rounded-full blur-[120px] opacity-50" />
+      </div>
+
       <div className="max-w-4xl w-full z-10 flex flex-col items-center relative">
 
         <motion.div
@@ -54,16 +58,16 @@ export function MiniAgentSection() {
         >
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-6 text-sm text-white font-poppins">
             <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-            WAIV Agent
+            Agency Audit
           </div>
-          <h2 className="text-4xl md:text-6xl font-medium font-poppins mb-6">
-            Identify Bottlenecks.<br />
+          <h2 className="text-4xl md:text-6xl font-medium font-poppins mb-6 uppercase tracking-tight">
+            Stop Manual Work.<br />
             <span className="text-white">
-              Execute with Agents.
+              Start Scaling.
             </span>
           </h2>
           <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto font-poppins">
-            Enter your website URL and our AI CFO will scan your business DNA to reveal manual workflows costing you money, and how to automate them.
+            Paste your URL to let our AI scan your business model. We’ll identify exactly which manual processes are slowing you down and how to replace them with agents.
           </p>
         </motion.div>
 
@@ -91,7 +95,7 @@ export function MiniAgentSection() {
                   type="submit"
                   className="absolute right-2 h-12 md:h-16 px-6 md:px-8 bg-white text-black rounded-full font-medium font-poppins text-base md:text-lg hover:bg-gray-200 transition-colors flex items-center gap-2"
                 >
-                  Analyze <ArrowRight className="w-4 h-4 hidden sm:block" />
+                  Start Scan <ArrowRight className="w-4 h-4 hidden sm:block" />
                 </button>
               </div>
               {error && <p className="text-red-400 text-center mt-4 font-poppins">{error}</p>}
@@ -119,8 +123,8 @@ export function MiniAgentSection() {
                 />
                 <Search className="w-8 h-8 text-white animate-pulse" />
               </div>
-              <h3 className="text-2xl font-poppins font-medium animate-pulse">Scanning Business DNA...</h3>
-              <p className="text-gray-500 mt-2 font-poppins">Analyzing operations and calculating ROI</p>
+              <h3 className="text-2xl font-poppins font-medium animate-pulse text-white">Auditing Agency Workflows...</h3>
+              <p className="text-gray-500 mt-2 font-poppins">Identifying manual bottlenecks and agent opportunities</p>
             </motion.div>
           )}
 

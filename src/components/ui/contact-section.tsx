@@ -6,6 +6,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "../../lib/utils";
 import { GLSLHills } from "./glsl-hills";
+import { Calendar, ArrowRight } from "lucide-react";
 
 // Register ScrollTrigger safely for React
 if (typeof window !== "undefined") {
@@ -20,8 +21,8 @@ const STYLES = `
   -webkit-font-smoothing: antialiased;
   
   /* Fixed colors for dark footer context to ensure premium glassy look as in template */
-  --pill-bg-1: rgba(255, 255, 255, 0.05);
-  --pill-bg-2: rgba(255, 255, 255, 0.02);
+  --pill-bg-1: rgba(255, 255, 255, 0.1);
+  --pill-bg-2: rgba(255, 255, 255, 0.05);
   --pill-shadow: rgba(0, 0, 0, 0.5);
   --pill-highlight: rgba(255, 255, 255, 0.1);
   --pill-inset-shadow: rgba(0, 0, 0, 0.8);
@@ -209,11 +210,10 @@ MagneticButton.displayName = "MagneticButton";
 // -------------------------------------------------------------------------
 const MarqueeItem = () => (
   <div className="flex items-center space-x-12 px-6">
-    <span>Accountability Redefined</span> <span className="text-primary/60">✦</span>
-    <span>Transparent Tracking</span> <span className="text-secondary/60">✦</span>
-    <span>12-Step Progress</span> <span className="text-primary/60">✦</span>
-    <span>Sponsor Connection</span> <span className="text-secondary/60">✦</span>
-    <span>Absolute Privacy</span> <span className="text-primary/60">✦</span>
+    <span className="text-primary/60">✦</span> <span>UNLIMITED SCALABILITY</span> 
+    <span className="text-secondary/60">✦</span> <span>24/7 AUTONOMOUS OPERATIONS</span> 
+    <span className="text-primary/60">✦</span> <span>CUSTOM AGENTIC WORKFLOWS</span> 
+    <span className="text-secondary/60">✦</span> <span>DATA SECURED</span>
   </div>
 );
 
@@ -261,7 +261,7 @@ export function CinematicFooter() {
             trigger: wrapperRef.current,
             start: "top 40%",
             end: "bottom bottom",
-            scrub: 1,
+            toggleActions: "play none none reverse",
           },
         }
       );
@@ -269,23 +269,21 @@ export function CinematicFooter() {
       // Switch footer from fixed → relative when curtain is fully open.
       // This prevents the next section (ModernAnimatedFooter) from creating
       // a second curtain-closing effect — it just scrolls normally.
+      // Switch footer from fixed → relative when curtain is fully open.
       ScrollTrigger.create({
         trigger: wrapperRef.current,
         start: "top top",
+        anticipatePin: 1,
         onEnter: () => {
           const el = footerRef.current;
           if (el) {
-            el.style.position = "relative";
-            el.style.bottom = "auto";
-            el.style.left = "auto";
+            gsap.set(el, { position: "relative", bottom: "auto", left: "auto" });
           }
         },
         onLeaveBack: () => {
           const el = footerRef.current;
           if (el) {
-            el.style.position = "fixed";
-            el.style.bottom = "0";
-            el.style.left = "0";
+            gsap.set(el, { position: "fixed", bottom: 0, left: 0 });
           }
         },
       });
@@ -348,7 +346,7 @@ export function CinematicFooter() {
               ref={headingRef}
               className="text-5xl md:text-8xl font-black text-zinc-200 tracking-tighter mb-12 text-center"
             >
-              Ready to begin?
+              Ready to automate?
             </h2>
 
             {/* Interactive Magnetic Pills Layout */}
@@ -356,32 +354,25 @@ export function CinematicFooter() {
               {/* App Store Links (Primary) */}
               <div className="flex flex-wrap justify-center gap-4 w-full">
                 <MagneticButton as="a" href="#" className="footer-glass-pill px-10 py-5 rounded-full text-white font-bold text-sm md:text-base flex items-center gap-3 group">
-                  <svg className="w-6 h-6 text-muted-foreground group-hover:text-foreground transition-colors" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.04 2.26-.79 3.59-.76 1.56.04 2.87.67 3.55 1.76-3.13 1.77-2.62 5.92.35 7.14-.65 1.58-1.57 3.1-2.57 4.03zm-3.21-14.7c-.55 1.4-1.89 2.37-3.25 2.28.09-1.5 1.05-2.82 2.38-3.4 1.25-.57 2.66-.41 3.25.04-.15.35-.26.72-.38 1.08z" />
-                  </svg>
-                  Download iOS
+                  <Calendar className="w-6 h-6 text-muted-foreground group-hover:text-foreground transition-colors" />
+                  Book a Demo
                 </MagneticButton>
 
-                <MagneticButton as="a" href="#" className="footer-glass-pill px-10 py-5 rounded-full text-foreground font-bold text-sm md:text-base flex items-center gap-3 group">
-                  <svg className="w-6 h-6 text-muted-foreground group-hover:text-foreground transition-colors" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993.0004.5511-.4482.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993.0004.5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0222 3.503C15.5902 8.242 13.8533 7.85 12 7.85c-1.8533 0-3.5902.392-5.1369 1.1004L4.841 5.4475a.416.416 0 00-.5676-.1521.416.416 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3436-4.1021-2.6893-7.5743-6.1185-9.4396" />
-                  </svg>
-                  Download Android
+                <MagneticButton
+                  as="a"
+                  href="#contact"
+                  onClick={(e: React.MouseEvent<HTMLElement>) => {
+                    e.preventDefault();
+                    document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="footer-glass-pill px-10 py-5 rounded-full text-foreground font-bold text-sm md:text-base flex items-center gap-3 group"
+                >
+                  <ArrowRight className="w-6 h-6 text-muted-foreground group-hover:text-foreground transition-colors" />
+                  Get Started
                 </MagneticButton>
               </div>
 
-              {/* Secondary Text Links */}
-              <div className="flex flex-wrap justify-center gap-3 md:gap-6 w-full mt-2">
-                <MagneticButton as="a" href="#" className="footer-glass-pill px-6 py-3 rounded-full text-zinc-400 font-medium text-xs md:text-sm hover:text-white">
-                  Privacy Policy
-                </MagneticButton>
-                <MagneticButton as="a" href="#" className="footer-glass-pill px-6 py-3 rounded-full text-zinc-400 font-medium text-xs md:text-sm hover:text-white">
-                  Terms of Service
-                </MagneticButton>
-                <MagneticButton as="a" href="#" className="footer-glass-pill px-6 py-3 rounded-full text-zinc-400 font-medium text-xs md:text-sm hover:text-white">
-                  Support
-                </MagneticButton>
-              </div>
+
             </div>
           </div>
 

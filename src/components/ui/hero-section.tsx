@@ -13,7 +13,7 @@ export function HeroSection({ isMobile }: HeroSectionProps) {
       <div className="z-20 flex flex-col items-center text-center px-6">
         {/* Top Announcement Bar */}
         <Badge variant="outline" className="-mb-5 px-3 py-1 md:px-4 md:py-1.5 rounded-full border-white/10 bg-white/5 text-white/60 font-poppins text-[10px] md:text-xs tracking-wider">
-          Next-generation Web Infrastructure
+          Next-generation Multi-Agent Systems
         </Badge>
 
         {/* Main WAIV Particle Text Area */}
@@ -34,21 +34,16 @@ export function HeroSection({ isMobile }: HeroSectionProps) {
 
         {/* Tagline */}
         <p className={cn(
-          "max-w-xl font-medium text-gray-200 font-poppins leading-relaxed transition-all duration-500",
+          "max-w-2xl font-medium text-gray-200 font-poppins leading-relaxed transition-all duration-500",
           isMobile ? "text-sm -mt-12 px-4" : "text-base -mt-32"
         )}>
-          {isMobile ? (
-            <>The ecosystem for sharing and <br /> funding anything.</>
-          ) : (
-            <>The ecosystem for sharing and funding anything. <br />
-              From writing about your latest idea, to building for the next big DAO.</>
-          )}
+          Beyond simple chatbots. We build autonomous agentic workflows that think, execute, and evolve with your technical infrastructure.
         </p>
 
         {/* CTA Button */}
         <div className="mt-8 md:mt-6 relative z-50">
           <MagneticButton className="footer-glass-pill rounded-full px-8 py-3 md:px-12 md:py-4 bg-transparent text-white border-none font-poppins font-medium text-base md:text-lg">
-            Get Started
+            Deploy Your Agent
           </MagneticButton>
         </div>
       </div>

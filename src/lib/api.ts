@@ -40,8 +40,8 @@ export async function analyzeUrl(url: string) {
 
     // 2. Analyze with Gemini
     const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-    const systemPrompt = `You are an expert AI Automation Architect and fractional CFO.
-Your goal is to analyze the provided scraped markdown text of a target business website and identify exactly 3 manual operational bottlenecks.
+    const systemPrompt = `You are an expert AI Agency Operations Consultant and Automation Architect.
+Your goal is to analyze the provided scraped markdown text of a target business website and identify exactly 3 manual agency-related operational bottlenecks.
 For each bottleneck, you must design an 'AI Workflow Blueprint' to solve it, and estimate the 'Annual Savings' (in USD) using automation.
 
 Return the result as a structured JSON object with an array of exactly 3 objects under the key "solutions".

@@ -1,166 +1,251 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Lock, Smartphone, Globe } from "lucide-react"
+import { Cpu, CheckCircle, MessageSquare, Loader2, BarChart3, Activity, Shield, FileText, Database, Share2, Smartphone } from "lucide-react"
 
-function TypeTester() {
-  const [scale, setScale] = useState(1)
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setScale((prev) => (prev === 1 ? 1.5 : 1))
-    }, 2000)
-    return () => clearInterval(interval)
-  }, [])
-
-  return (
-    <div className="flex items-center justify-center h-full">
-      <motion.span
-        className="font-poppins text-6xl md:text-8xl text-white font-medium"
-        animate={{ scale }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      >
-        Aa
-      </motion.span>
-    </div>
-  )
-}
-
-function LayoutAnimation() {
-  const [layout, setLayout] = useState(0)
+// 1. Autonomous AI Agents Animation
+function AutonomousAgentsAnim() {
+  const [tasks, setTasks] = useState<{ id: number; angle: number; completed: boolean }[]>([])
+  const nextId = useRef(0)
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setLayout((prev) => (prev + 1) % 3)
-    }, 2500)
-    return () => clearInterval(interval)
-  }, [])
+      const id = nextId.current++
+      setTasks(prev => [...prev, { id, angle: Math.random() * 360, completed: false }])
 
-  const layouts = ["grid-cols-2", "grid-cols-3", "grid-cols-1"]
+      // Complete task after 1.5s
+      setTimeout(() => {
+        setTasks(prev => prev.map(t => t.id === id ? { ...t, completed: true } : t))
+      }, 1500)
 
-  return (
-    <div className="h-full flex items-center justify-center">
-      <motion.div
-        className={`grid ${layouts[layout]} gap-1.5 w-full max-w-[140px] h-full`}
-        layout
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      >
-        {[1, 2, 3].map((i) => (
-          <motion.div
-            key={i}
-            className="bg-white/20 rounded-md h-5 w-full"
-            layout
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          />
-        ))}
-      </motion.div>
-    </div>
-  )
-}
-
-function SpeedIndicator() {
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const timeout = setTimeout(() => setLoading(false), 500)
-    return () => clearTimeout(timeout)
-  }, [])
-
-  return (
-    <div className="flex flex-col items-center justify-center h-full gap-4">
-      <div className="h-10 flex items-center justify-center overflow-hidden relative w-full">
-        <AnimatePresence mode="wait">
-          {loading ? (
-            <motion.div
-              key="loader"
-              className="h-8 w-24 bg-white/10 rounded"
-              initial={{ opacity: 0.5 }}
-              animate={{ opacity: [0.4, 0.7, 0.4] }}
-              exit={{ opacity: 0, y: -20, position: 'absolute' }}
-              transition={{ duration: 1, repeat: Infinity }}
-            />
-          ) : (
-            <motion.span
-              key="text"
-              initial={{ y: 20, opacity: 0, filter: "blur(5px)" }}
-              animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-              className="text-3xl md:text-4xl font-sans font-medium text-white"
-            >
-              100ms
-            </motion.span>
-          )}
-        </AnimatePresence>
-      </div>
-      <span className="text-sm text-gray-400">Load Time</span>
-      <div className="w-full max-w-[120px] h-1.5 bg-white/10 rounded-full overflow-hidden">
-        <motion.div
-          className="h-full bg-white rounded-full"
-          initial={{ width: 0 }}
-          animate={{ width: loading ? 0 : "100%" }}
-          transition={{ type: "spring", stiffness: 100, damping: 15, mass: 1 }}
-        />
-      </div>
-    </div>
-  )
-}
-
-function SecurityBadge() {
-  const [shields, setShields] = useState([
-    { id: 1, active: false },
-    { id: 2, active: false },
-    { id: 3, active: false }
-  ])
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setShields(prev => {
-        const nextIndex = prev.findIndex(s => !s.active)
-        if (nextIndex === -1) {
-          return prev.map(() => ({ id: Math.random(), active: false }))
-        }
-        return prev.map((s, i) => i === nextIndex ? { ...s, active: true } : s)
-      })
+      // Remove after 3s
+      setTimeout(() => {
+        setTasks(prev => prev.filter(t => t.id !== id))
+      }, 3000)
     }, 800)
     return () => clearInterval(interval)
   }, [])
 
   return (
-    <div className="flex items-center justify-center h-full gap-2">
-      {shields.map((shield) => (
+    <div className="relative w-40 h-40 flex items-center justify-center">
+      <motion.div
+        className="z-10 bg-white/10 p-4 rounded-2xl border border-white/20 backdrop-blur-sm"
+        animate={{ scale: [1, 1.1, 1] }}
+        transition={{ duration: 2, repeat: Infinity }}
+      >
+        <Cpu className="w-10 h-10 text-white" />
+      </motion.div>
+
+      <AnimatePresence>
+        {tasks.map((task) => {
+          const x = Math.cos((task.angle * Math.PI) / 180) * 80
+          const y = Math.sin((task.angle * Math.PI) / 180) * 80
+
+          return (
+            <motion.div
+              key={task.id}
+              className="absolute"
+              initial={{ x: 0, y: 0, opacity: 0, scale: 0.5 }}
+              animate={task.completed ? { x: 0, y: 0, opacity: [1, 0], scale: 1 } : { x, y, opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.5, ease: "easeInOut" }}
+            >
+              {task.completed ? (
+                <CheckCircle className="w-5 h-5 text-green-400" />
+              ) : (
+                <div className="w-2 h-2 bg-white rounded-full shadow-[0_0_10px_white]" />
+              )}
+            </motion.div>
+          )
+        })}
+      </AnimatePresence>
+    </div>
+  )
+}
+
+// 2. Agentic Chatbots Animation
+function AgenticChatbotsAnim() {
+  const [status, setStatus] = useState<'typing' | 'done'>('typing')
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setStatus(prev => prev === 'typing' ? 'done' : 'typing')
+    }, 2500)
+    return () => clearInterval(interval)
+  }, [])
+
+  return (
+    <div className="flex items-center justify-center h-full">
+      <motion.div
+        className="bg-white/10 p-6 rounded-3xl border border-white/20 relative"
+        layout
+      >
+        <AnimatePresence mode="wait">
+          {status === 'typing' ? (
+            <motion.div
+              key="typing"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              className="flex items-center gap-3"
+            >
+              <MessageSquare className="w-6 h-6 text-white" />
+              <Loader2 className="w-5 h-5 text-white/50 animate-spin" />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="done"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              className="flex items-center gap-3"
+            >
+              <CheckCircle className="w-6 h-6 text-green-400" />
+              <span className="text-sm font-medium text-white">Action Executed</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </div>
+  )
+}
+
+// 3. Task Orchestration Animation
+function TaskOrchestrationAnim() {
+  return (
+    <div className="flex flex-col gap-4 w-full max-w-[160px]">
+      {[0.4, 0.7, 0.5].map((speed, i) => (
+        <div key={i} className="h-2 w-full bg-white/5 rounded-full overflow-hidden border border-white/5">
+          <motion.div
+            className="h-full bg-white/40 rounded-full"
+            initial={{ width: "0%" }}
+            animate={{ width: ["0%", "100%", "0%"] }}
+            transition={{
+              duration: 3 / speed,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: i * 0.5
+            }}
+          />
+        </div>
+      ))}
+    </div>
+  )
+}
+
+// 4. Agentic Dashboard Animation
+function AgenticDashboardAnim() {
+  return (
+    <div className="relative w-full h-full flex items-center justify-center">
+      <div className="w-48 h-32 bg-white/5 rounded-xl border border-white/10 p-4 overflow-hidden relative">
+        <Activity className="absolute top-2 right-2 w-4 h-4 text-white/20" />
+        <svg viewBox="0 0 100 40" className="w-full h-full">
+          <motion.path
+            d="M 0 20 Q 10 5, 20 20 T 40 20 T 60 20 T 80 20 T 100 20"
+            fill="none"
+            stroke="white"
+            strokeWidth="1.5"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: [0.2, 1, 0.2] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+          />
+          <motion.circle
+            r="2"
+            fill="white"
+            animate={{
+              cx: [0, 100],
+              cy: [20, 20], // Simplified cy to match path
+            }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+          />
+        </svg>
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-black/40 pointer-events-none" />
+      </div>
+      <motion.div
+        className="absolute w-56 h-56 border border-white/5 rounded-full"
+        animate={{ scale: [1, 1.2], opacity: [0.2, 0] }}
+        transition={{ duration: 2, repeat: Infinity }}
+      />
+    </div>
+  )
+}
+
+// 5. Data-Sync Support Animation
+function DataSyncSupportAnim() {
+  const [index, setIndex] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex(prev => (prev + 1) % 3)
+    }, 1500)
+    return () => clearInterval(interval)
+  }, [])
+
+  return (
+    <div className="flex items-center justify-center gap-6 h-full">
+      {[0, 1, 2].map(i => (
         <motion.div
-          key={shield.id}
-          className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-            shield.active ? 'bg-white/20' : 'bg-white/5'
-          }`}
-          animate={{ scale: shield.active ? 1.1 : 1 }}
-          transition={{ duration: 0.3 }}
+          key={i}
+          className="relative w-14 h-14 bg-white/5 rounded-xl border border-white/10 flex items-center justify-center"
+          animate={index === i ? { scale: 1.1, backgroundColor: "rgba(255,255,255,0.1)" } : { scale: 1 }}
         >
-          <Lock className={`w-5 h-5 ${shield.active ? 'text-white' : 'text-gray-600'}`} />
+          <AnimatePresence mode="wait">
+            {index === i ? (
+              <motion.div
+                key="doc"
+                initial={{ opacity: 0, rotateY: 90 }}
+                animate={{ opacity: 1, rotateY: 0 }}
+                exit={{ opacity: 0, rotateY: -90 }}
+              >
+                {i === 1 ? <Database className="w-6 h-6 text-white" /> : <FileText className="w-6 h-6 text-white" />}
+              </motion.div>
+            ) : (
+              <motion.div
+                key="shield"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <Shield className="w-6 h-6 text-white/30" />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
       ))}
     </div>
   )
 }
 
-function GlobalNetwork() {
-  const [pulses] = useState([0, 1, 2, 3, 4])
-
+// 6. Custom Workflows Animation
+function CustomWorkflowsAnim() {
   return (
-    <div className="flex items-center justify-center h-full relative">
-      <Globe className="w-16 h-16 text-white/80 z-10" />
-      {pulses.map((pulse) => (
-        <motion.div
-          key={pulse}
-          className="absolute w-16 h-16 border-2 border-white/30 rounded-full"
-          initial={{ scale: 0.5, opacity: 1 }}
-          animate={{ scale: 3, opacity: 0 }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            delay: pulse * 0.8,
-            ease: "easeOut"
-          }}
-        />
-      ))}
+    <div className="flex items-center justify-center h-full">
+      <div className="w-20 h-32 bg-zinc-900 rounded-2xl border-4 border-zinc-800 p-2 relative">
+        <div className="w-full h-full border border-white/5 rounded-lg flex items-center justify-center relative overflow-hidden">
+          <motion.div
+            className="flex flex-col items-center gap-3"
+            animate={{
+              y: [0, -10, 0],
+            }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <Share2 className="w-8 h-8 text-white/80" />
+            <div className="grid grid-cols-2 gap-2">
+              {[1, 2, 3, 4].map(i => (
+                <motion.div
+                  key={i}
+                  className="w-3 h-3 bg-white/10 rounded-sm"
+                  animate={{
+                    scale: [1, 1.2, 1],
+                    opacity: [0.3, 0.8, 0.3]
+                  }}
+                  transition={{ duration: 2, delay: i * 0.2, repeat: Infinity }}
+                />
+              ))}
+            </div>
+          </motion.div>
+          <div className="absolute top-1 left-1/2 -translate-x-1/2 w-8 h-1 bg-zinc-800 rounded-full" />
+        </div>
+      </div>
     </div>
   )
 }
@@ -177,125 +262,121 @@ function ServicesSectionGrid() {
         >
           Our Services
         </motion.p>
-        <h2 className="text-4xl md:text-5xl lg:text-5xl font-medium tracking-tight mb-16 leading-[1.1] text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-white/70">
-          Everything you need to launch
+        <h2 className="text-4xl md:text-5xl lg:text-5xl font-medium tracking-tight mb-16 leading-[1.3] py-2 text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-white/70 max-w-2xl">
+          Everything you need to automate growth
         </h2>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-6 gap-4 auto-rows-[200px]">
-          
-          {/* 1. Typography - Tall (2x2) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-4 auto-rows-min md:auto-rows-[320px]">
+
+          {/* 1. Autonomous AI Agents - Tall (2x2 on md, squareish on sm) */}
           <motion.div
-            className="md:col-span-2 md:row-span-2 footer-glass-pill rounded-xl p-8 flex flex-col cursor-pointer overflow-hidden"
+            className="md:col-span-2 md:row-span-2 sm:col-span-2 footer-glass-pill rounded-3xl p-6 md:p-8 flex flex-col cursor-pointer overflow-hidden group min-h-[400px] md:min-h-0"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            whileHover={{ scale: 1.02, backgroundColor: "rgba(39, 39, 42, 1)" }}
+            whileHover={{ scale: 1.01, backgroundColor: "rgba(39, 39, 42, 0.8)" }}
           >
-            <div className="flex-1">
-              <TypeTester />
+            <div className="flex-1 flex items-center justify-center py-4">
+              <AutonomousAgentsAnim />
             </div>
             <div className="mt-4">
-              <h3 className="font-poppins text-xl text-white font-medium">Smart Contracts</h3>
-              <p className="text-gray-400 text-sm mt-1 font-poppins">Secure, audited smart contracts designed to run autonomously.</p>
+              <h3 className="font-poppins text-xl text-white font-medium">Autonomous AI Agents</h3>
+              <p className="text-gray-400 text-sm mt-1 font-poppins leading-relaxed">Self-correcting agents that plan, execute, and complete complex multi-step goals without human oversight.</p>
             </div>
           </motion.div>
 
-          {/* 2. Layouts - Standard (2x1) */}
+          {/* 2. Agentic Chatbots - Standard (2x1) */}
           <motion.div
-            className="md:col-span-2 footer-glass-pill rounded-xl p-8 flex flex-col cursor-pointer overflow-hidden"
+            className="md:col-span-2 sm:col-span-1 footer-glass-pill rounded-3xl p-6 md:p-8 flex flex-col cursor-pointer overflow-hidden group min-h-[300px] md:min-h-0"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            whileHover={{ scale: 0.98 }}
+            whileHover={{ scale: 0.99 }}
           >
-            <div className="flex-1">
-              <LayoutAnimation />
+            <div className="flex-1 flex items-center justify-center">
+              <AgenticChatbotsAnim />
             </div>
             <div className="mt-4">
-              <h3 className="font-poppins text-xl text-white font-medium">Decentralized Apps (dApps)</h3>
-              <p className="text-gray-400 text-sm mt-1 font-poppins">End-to-end dApp development on multiple chains.</p>
+              <h3 className="font-poppins text-xl text-white font-medium">Agentic Chatbots</h3>
+              <p className="text-gray-400 text-sm mt-1 font-poppins">Intelligent interfaces that don't just talk—they execute actions in your tools.</p>
             </div>
           </motion.div>
 
-          {/* 3. Global Network - Tall (2x2) */}
+          {/* 4. Agentic Dashboard - Tall (2x2) */}
           <motion.div
-            className="md:col-span-2 md:row-span-2 footer-glass-pill rounded-xl p-6 flex flex-col cursor-pointer overflow-hidden"
+            className="md:col-span-2 md:row-span-2 sm:col-span-2 footer-glass-pill rounded-3xl p-6 md:p-8 flex flex-col cursor-pointer overflow-hidden group min-h-[400px] md:min-h-0"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            whileHover={{ scale: 1.02, boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)" }}
+            whileHover={{ scale: 1.01, boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)" }}
           >
-            <div className="flex-1 flex items-center justify-center">
-              <div className="relative">
-                <GlobalNetwork />
-              </div>
+            <div className="flex-1 flex items-center justify-center py-4">
+              <AgenticDashboardAnim />
             </div>
-            <div className="mt-auto relative z-20 bg-zinc-900/50 backdrop-blur-sm rounded-lg p-2 font-poppins">
+            <div className="mt-auto">
               <h3 className="font-poppins text-xl text-white flex items-center gap-2 font-medium">
-                <Globe className="w-5 h-5" />
-                Global Node Network
+                Agentic Dashboard
               </h3>
-              <p className="text-gray-400 text-sm mt-1">High-availability node infrastructure for fast propagation.</p>
+              <p className="text-gray-400 text-sm mt-1 font-poppins leading-relaxed">A central mission control to monitor your AI workforce and visualize real-time performance.</p>
             </div>
           </motion.div>
 
-          {/* 4. Speed - Standard (2x1) */}
+          {/* 3. Task Orchestration - Standard (2x1) */}
           <motion.div
-            className="md:col-span-2 footer-glass-pill rounded-xl p-8 flex flex-col cursor-pointer overflow-hidden"
+            className="md:col-span-2 sm:col-span-1 footer-glass-pill rounded-3xl p-6 md:p-8 flex flex-col cursor-pointer overflow-hidden group min-h-[300px] md:min-h-0"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.15 }}
+            whileHover={{ scale: 0.99 }}
+          >
+            <div className="flex-1 flex items-center justify-center">
+              <TaskOrchestrationAnim />
+            </div>
+            <div className="mt-4">
+              <h3 className="font-poppins text-xl text-white font-medium">Task Orchestration</h3>
+              <p className="text-gray-400 text-sm mt-1 font-poppins">High-speed coordination between multiple agents to handle parallel logic.</p>
+            </div>
+          </motion.div>
+
+          {/* 5. Data-Sync Support - Wide (3x1) */}
+          <motion.div
+            className="md:col-span-3 sm:col-span-2 footer-glass-pill rounded-3xl p-6 md:p-8 flex flex-col cursor-pointer overflow-hidden group min-h-[300px] md:min-h-0"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
-            whileHover={{ scale: 0.98 }}
+            whileHover={{ scale: 0.99 }}
           >
-            <div className="flex-1">
-              <SpeedIndicator />
+            <div className="flex-1 flex items-center justify-center">
+              <DataSyncSupportAnim />
             </div>
             <div className="mt-4">
-              <h3 className="font-poppins text-xl text-white font-medium">ZK-Rollups</h3>
-              <p className="text-gray-400 text-sm mt-1 font-poppins">Instant finality with minimal gas fees.</p>
+              <h3 className="font-poppins text-xl text-white flex items-center gap-2 font-medium">
+                Data-Sync Support
+              </h3>
+              <p className="text-gray-400 text-sm mt-1 font-poppins">24/7 agents trained on your entire knowledge base and live business data.</p>
             </div>
           </motion.div>
 
-          {/* 5. Security - Wide (3x1) */}
+          {/* 6. Custom Workflows - Wide (3x1) */}
           <motion.div
-            className="md:col-span-3 footer-glass-pill rounded-xl p-8 flex flex-col cursor-pointer overflow-hidden"
+            className="md:col-span-3 sm:col-span-2 footer-glass-pill rounded-3xl p-6 md:p-8 flex flex-col cursor-pointer overflow-hidden group min-h-[300px] md:min-h-0"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.4 }}
-            whileHover={{ scale: 0.98 }}
-          >
-            <div className="flex-1">
-              <SecurityBadge />
-            </div>
-            <div className="mt-4">
-              <h3 className="font-poppins text-xl text-white flex items-center gap-2 font-medium">
-                <Lock className="w-5 h-5" />
-                Security Auditing
-              </h3>
-              <p className="text-gray-400 text-sm mt-1 font-poppins">Comprehensive code reviews to protect user funds.</p>
-            </div>
-          </motion.div>
-
-          {/* 6. Mobile Responsive - Wide (3x1) */}
-          <motion.div
-            className="md:col-span-3 footer-glass-pill rounded-xl p-8 flex flex-col cursor-pointer overflow-hidden"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5 }}
-            whileHover={{ scale: 0.98 }}
+            whileHover={{ scale: 0.99 }}
           >
             <div className="flex-1 flex items-center justify-center">
-              <Smartphone className="w-16 h-16 text-white" />
+              <CustomWorkflowsAnim />
             </div>
             <div className="mt-4">
-              <h3 className="font-poppins text-xl text-white font-medium">Web3 Integration APIs</h3>
-              <p className="text-gray-400 text-sm mt-1 font-poppins">Connect any mobile platform to robust blockchain networks.</p>
+              <h3 className="font-poppins text-xl text-white font-medium">Custom Agentic Workflows</h3>
+              <p className="text-gray-400 text-sm mt-1 font-poppins">Tailor-made automation paths built for your specific industry requirements.</p>
             </div>
           </motion.div>
 
