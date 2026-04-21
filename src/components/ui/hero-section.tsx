@@ -19,7 +19,7 @@ export function HeroSection({ isMobile }: HeroSectionProps) {
         {/* Main WAIV Particle Text Area */}
         <div className={cn(
           "relative w-full max-w-7xl flex items-center justify-center transition-all duration-500",
-          isMobile ? "h-[200px] -mt-4" : "h-[450px] -mt-16"
+          isMobile ? "h-[200px] -mt-4 pointer-events-none" : "h-[450px] -mt-16"
         )}>
           <div className="absolute inset-0 flex items-center justify-center text-white">
             <CursorDrivenParticleTypography
@@ -42,7 +42,11 @@ export function HeroSection({ isMobile }: HeroSectionProps) {
 
         {/* CTA Button */}
         <div className="mt-8 md:mt-6 relative z-50">
-          <MagneticButton className="footer-glass-pill rounded-full px-8 py-3 md:px-12 md:py-4 bg-transparent text-white border-none font-poppins font-medium text-base md:text-lg">
+          <MagneticButton 
+            as="a"
+            href="#contact"
+            className="footer-glass-pill rounded-full px-8 py-3 md:px-12 md:py-4 bg-transparent text-white border-none font-poppins font-medium text-base md:text-lg inline-flex items-center justify-center cursor-pointer"
+          >
             Deploy Your Agent
           </MagneticButton>
         </div>

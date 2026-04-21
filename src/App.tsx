@@ -149,7 +149,7 @@ function App() {
           </div>
 
           {/* Contact Us - Top Right */}
-          <div className="pointer-events-auto hidden sm:block">
+          <div className="pointer-events-auto">
             <MagneticButton
               as="a"
               href="#contact"
