@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Cpu, CheckCircle, MessageSquare, Loader2, BarChart3, Activity, Shield, FileText, Database, Share2, Smartphone } from "lucide-react"
+import { Cpu, CheckCircle, MessageSquare, Loader2, Activity, Shield, FileText, Database, Share2 } from "lucide-react"
 
 // 1. Autonomous AI Agents Animation
 function AutonomousAgentsAnim() {
