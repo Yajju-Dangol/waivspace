@@ -13,7 +13,7 @@ export function HeroSection({ isMobile }: HeroSectionProps) {
       <div className="z-20 flex flex-col items-center text-center px-6">
         {/* Top Announcement Bar */}
         <Badge variant="outline" className="-mb-5 px-3 py-1 md:px-4 md:py-1.5 rounded-full border-white/10 bg-white/5 text-white/60 font-poppins text-[10px] md:text-xs tracking-wider">
-          Next-generation Multi-Agent Systems
+          Make your business smarter with agents
         </Badge>
 
         {/* Main WAIV Particle Text Area */}
@@ -42,7 +42,7 @@ export function HeroSection({ isMobile }: HeroSectionProps) {
 
         {/* CTA Button */}
         <div className="mt-8 md:mt-6 relative z-50">
-          <MagneticButton 
+          <MagneticButton
             as="a"
             href="#contact"
             className="footer-glass-pill rounded-full px-8 py-3 md:px-12 md:py-4 bg-transparent text-white border-none font-poppins font-medium text-base md:text-lg inline-flex items-center justify-center cursor-pointer"

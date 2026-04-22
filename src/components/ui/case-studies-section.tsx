@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Monitor, LayoutDashboard, Users } from "lucide-react";
+import { Monitor } from "lucide-react";
 import ReactCountUp from "react-countup";
 
 // Handle potential default/named export variations
