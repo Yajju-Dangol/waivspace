@@ -62,13 +62,8 @@ function MetricStat({
         aria-label={`${label} ${value}`}
       >
         {prefix}
-        {reduceMotion ? (
-          <span>
-            {end.toLocaleString(undefined, {
-              minimumFractionDigits: decimals,
-              maximumFractionDigits: decimals,
-            })}
-          </span>
+        {reduceMotion || isNaN(end) || !value.match(/\d/) ? (
+          <span>{value.replace(prefix, "").replace(suffix, "")}</span>
         ) : (
           <CountUp
             end={end}
@@ -95,44 +90,16 @@ export default function Casestudies() {
   const caseStudies = [
     {
       id: 1,
-      quote:
-        "With WAIV, our team finally works in sync. Components are reusable, consistent, and we ship new features 40% faster.",
-      name: "Aarav Mehta",
-      role: "Frontend Engineer",
-      image:
-        "https://pub-940ccf6255b54fa799a9b01050e6c227.r2.dev/dashboard-gradient.png",
+      title: "Stock Meets Social",
+      description: "Seasons Board uses AI Agents to watch your inventory and automatically create social media posts. When new stock arrives, your marketing is ready instantly.",
+      quote: "The AI agents handle our marketing so we can focus on our designs.",
+      name: "Lasata",
+      role: "Clothing Brand Owner",
+      image: "/seasons-board.png",
       icon: Monitor,
       metrics: [
-        { value: "40%", label: "Faster Delivery", sub: "Feature shipping speed" },
-        { value: "95%", label: "Developer Satisfaction", sub: "Based on internal survey" },
-      ],
-    },
-    {
-      id: 2,
-      quote:
-        "WAIV gave us a unified dashboard experience. Our ops team reduced time spent on context switching and improved clarity across all projects.",
-      name: "Sophia Patel",
-      role: "Operations Manager",
-      image:
-        "https://pub-940ccf6255b54fa799a9b01050e6c227.r2.dev/dashboard-02.png",
-      icon: LayoutDashboard,
-      metrics: [
-        { value: "3.5x", label: "Efficiency Gain", sub: "Across workflows" },
-        { value: "70%", label: "Reduced Errors", sub: "In daily reporting" },
-      ],
-    },
-    {
-      id: 3,
-      quote:
-        "The collaborative features in WAIV changed the way our team communicates. Everything is more transparent, and onboarding is seamless.",
-      name: "David Liu",
-      role: "Team Lead",
-      image:
-        "https://pub-940ccf6255b54fa799a9b01050e6c227.r2.dev/featured-01.png",
-      icon: Users,
-      metrics: [
-        { value: "2x", label: "Faster Onboarding", sub: "For new hires" },
-        { value: "88%", label: "Collaboration Boost", sub: "Teamwide adoption" },
+        { value: "90%", label: "Faster Posting", sub: "AI writes your captions" },
+        { value: "100%", label: "Stock Sync", sub: "No more overselling" },
       ],
     },
   ];
@@ -152,8 +119,7 @@ export default function Casestudies() {
             Real results with WAIV
           </h2>
           <p className="text-gray-400 font-poppins">
-            From design systems to operations—WAIV powers teams with speed,
-            clarity, and consistency.
+            From inventory management to multi-channel marketing—WAIV powers niche brands with autonomous agents.
           </p>
         </div>
 
@@ -182,14 +148,17 @@ export default function Casestudies() {
                     loading="lazy"
                   />
                   <figure className="flex flex-col justify-between gap-8 text-left font-poppins">
-                    <blockquote className="text-lg sm:text-xl text-white leading-relaxed text-left">
-                      <h3 className="text-lg sm:text-xl lg:text-xl font-normal text-white leading-relaxed text-left">
-                        Intuitive Dashboard Experience{" "}
-                        <span className="block text-gray-400 text-sm sm:text-base lg:text-lg mt-2 font-poppins">
-                          {study.quote}
-                        </span>
+                    <div className="flex flex-col gap-4">
+                      <h3 className="text-xl sm:text-2xl font-bold text-white font-poppins">
+                        {study.title}
                       </h3>
-                    </blockquote>
+                      <p className="text-gray-400 text-sm sm:text-base font-poppins leading-relaxed">
+                        {study.description}
+                      </p>
+                      <blockquote className="text-white italic text-base sm:text-lg border-l-2 border-white/20 pl-4 py-1 mt-2">
+                        "{study.quote}"
+                      </blockquote>
+                    </div>
                     <figcaption className="flex items-center gap-6 mt-4 text-left">
                       <div className="flex flex-col gap-1">
                         <span className="text-md font-medium text-white">

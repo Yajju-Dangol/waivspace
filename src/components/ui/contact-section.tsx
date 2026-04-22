@@ -126,18 +126,6 @@ const STYLES = `
   background-clip: text;
   filter: drop-shadow(0px 0px 20px color-mix(in oklch, var(--foreground) 15%, transparent));
 }
-
-.curtain-wrapper {
-  clip-path: polygon(0% 0, 100% 0%, 100% 100%, 0 100%);
-}
-
-@media (max-width: 767px) {
-  .curtain-wrapper {
-    clip-path: none !important;
-    height: auto !important;
-    min-height: 80vh;
-  }
-}
 `;
 
 // -------------------------------------------------------------------------
@@ -230,192 +218,120 @@ const MarqueeItem = () => (
 );
 
 export function CinematicFooter() {
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const footerRef = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const giantTextRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const linksRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (!wrapperRef.current) return;
+    if (!containerRef.current) return;
 
-    // gsap.matchMedia for clean breakpoint-specific logic
-    const mm = gsap.matchMedia();
-    
-    mm.add({
-      isDesktop: "(min-width: 768px)",
-      isMobile: "(max-width: 767px)"
-    }, (context) => {
-      const { isDesktop } = context.conditions as any;
-
-      if (isDesktop) {
-        // Background Parallax (Desktop Only)
-        gsap.fromTo(
-          giantTextRef.current,
-          { y: "10vh", scale: 0.8, opacity: 0 },
-          {
-            y: "0vh",
-            scale: 1,
-            opacity: 1,
-            ease: "power1.out",
-            scrollTrigger: {
-              trigger: wrapperRef.current,
-              start: "top 80%",
-              end: "bottom bottom",
-              scrub: 1,
-            },
-          }
-        );
-
-        // Staggered Content Reveal
-        gsap.fromTo(
-          [headingRef.current, linksRef.current],
-          { y: 50, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            stagger: 0.15,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: wrapperRef.current,
-              start: "top 40%",
-              end: "bottom bottom",
-              toggleActions: "play none none reverse",
-            },
-          }
-        );
-
-        // Switch footer from fixed → relative when curtain is fully open (Desktop Only)
-        ScrollTrigger.create({
-          trigger: wrapperRef.current,
-          start: "top top",
-          anticipatePin: 1,
-          onEnter: () => {
-            const el = footerRef.current;
-            if (el) {
-              gsap.set(el, { position: "relative", bottom: "auto", left: "auto" });
-            }
+    const ctx = gsap.context(() => {
+      // Background Parallax
+      gsap.fromTo(
+        giantTextRef.current,
+        { y: "5vh", opacity: 0 },
+        {
+          y: "0vh",
+          opacity: 1,
+          ease: "power1.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 80%",
+            end: "bottom bottom",
+            scrub: 1,
           },
-          onLeaveBack: () => {
-            const el = footerRef.current;
-            if (el) {
-              gsap.set(el, { position: "fixed", bottom: 0, left: 0 });
-            }
-          },
-        });
-      } else {
-        // Mobile simple logic: Normal Flow
-        gsap.set(footerRef.current, { position: "relative", bottom: "auto", left: "auto", height: "auto", minHeight: "80vh" });
-        
-        // Simple reveal for mobile
-        gsap.fromTo(
-          [headingRef.current, linksRef.current],
-          { y: 30, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            stagger: 0.1,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: wrapperRef.current,
-              start: "top 85%",
-              toggleActions: "play none none reverse",
-            },
-          }
-        );
-      }
-    });
+        }
+      );
 
-    return () => mm.revert();
+      // Staggered Content Reveal
+      gsap.fromTo(
+        [headingRef.current, linksRef.current],
+        { y: 30, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          stagger: 0.15,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 60%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+    }, containerRef);
+
+    return () => ctx.revert();
   }, []);
-
-
 
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: STYLES }} />
 
-      {/* 
-        The "Curtain Reveal" Wrapper:
-        It sits in standard flow. Because it has clip-path, its contents
-        are ONLY visible within its bounding box. 
-      */}
-      <div
-        ref={wrapperRef}
-        className="relative h-screen w-full curtain-wrapper"
+      <footer
+        ref={containerRef}
+        className="relative flex min-h-screen w-full flex-col justify-between overflow-hidden bg-black text-foreground cinematic-footer-wrapper"
       >
-        {/* Fixed footer revealed via curtain — switches to relative after full reveal */}
-        <footer
-          ref={footerRef}
-          className="md:fixed relative bottom-0 left-0 flex h-screen md:h-screen w-full flex-col justify-between overflow-hidden bg-black text-foreground cinematic-footer-wrapper"
+        {/* Background Layers */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          <GLSLHills />
+          {/* Additional ambient overlay for depth */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-transparent opacity-80 z-10" />
+        </div>
+        
+        <div className="footer-aurora absolute left-1/2 top-1/2 h-[60vh] w-[80vw] -translate-x-1/2 -translate-y-1/2 animate-footer-breathe rounded-[50%] blur-[80px] pointer-events-none z-0" />
+        <div className="footer-bg-grid absolute inset-0 z-0 pointer-events-none" />
+
+        {/* Giant background text */}
+        <div
+          ref={giantTextRef}
+          className="footer-giant-bg-text absolute -bottom-[5vh] left-1/2 -translate-x-1/2 whitespace-nowrap z-0 pointer-events-none select-none"
         >
+          WAIV
+        </div>
 
-          {/* Background Layers */}
-          <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-             <GLSLHills />
-             {/* Additional ambient overlay for depth */}
-             <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-transparent opacity-80 z-10" />
+        {/* 1. Diagonal Sleek Marquee (Top of footer) */}
+        <div className="absolute top-24 left-0 w-full overflow-hidden border-y border-border/50 bg-background/60 backdrop-blur-md py-4 z-10 -rotate-2 scale-110 shadow-2xl">
+          <div className="flex w-max animate-footer-scroll-marquee text-xs md:text-sm font-bold tracking-[0.3em] text-muted-foreground uppercase">
+            <MarqueeItem />
+            <MarqueeItem />
           </div>
-          
-          <div className="footer-aurora absolute left-1/2 top-1/2 h-[60vh] w-[80vw] -translate-x-1/2 -translate-y-1/2 animate-footer-breathe rounded-[50%] blur-[80px] pointer-events-none z-0" />
-          <div className="footer-bg-grid absolute inset-0 z-0 pointer-events-none" />
+        </div>
 
-          {/* Giant background text */}
-          <div
-            ref={giantTextRef}
-            className="footer-giant-bg-text absolute -bottom-[5vh] left-1/2 -translate-x-1/2 whitespace-nowrap z-0 pointer-events-none select-none"
+        {/* 2. Main Center Content */}
+        <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 mt-20 w-full max-w-5xl mx-auto">
+          <h2
+            ref={headingRef}
+            className="text-5xl md:text-8xl font-black text-zinc-200 tracking-tighter mb-12 text-center"
           >
-            WAIV
-          </div>
+            Ready to automate?
+          </h2>
 
-          {/* 1. Diagonal Sleek Marquee (Top of footer) */}
-          <div className="absolute top-24 left-0 w-full overflow-hidden border-y border-border/50 bg-background/60 backdrop-blur-md py-4 z-10 -rotate-2 scale-110 shadow-2xl">
-            <div className="flex w-max animate-footer-scroll-marquee text-xs md:text-sm font-bold tracking-[0.3em] text-muted-foreground uppercase">
-              <MarqueeItem />
-              <MarqueeItem />
+          <div ref={linksRef} className="flex flex-col items-center gap-6 w-full">
+            <div className="flex flex-wrap justify-center gap-4 w-full">
+              <MagneticButton as="a" href="#" className="footer-glass-pill px-10 py-5 rounded-full text-white font-bold text-sm md:text-base flex items-center gap-3 group">
+                <Calendar className="w-6 h-6 text-muted-foreground group-hover:text-foreground transition-colors" />
+                Book a Demo
+              </MagneticButton>
+
+              <MagneticButton
+                as="a"
+                href="#contact"
+                onClick={(e: React.MouseEvent<HTMLElement>) => {
+                  e.preventDefault();
+                  document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="footer-glass-pill px-10 py-5 rounded-full text-foreground font-bold text-sm md:text-base flex items-center gap-3 group"
+              >
+                <ArrowRight className="w-6 h-6 text-muted-foreground group-hover:text-foreground transition-colors" />
+                Get Started
+              </MagneticButton>
             </div>
           </div>
-
-          {/* 2. Main Center Content */}
-          <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 mt-20 w-full max-w-5xl mx-auto">
-            <h2
-              ref={headingRef}
-              className="text-5xl md:text-8xl font-black text-zinc-200 tracking-tighter mb-12 text-center"
-            >
-              Ready to automate?
-            </h2>
-
-            {/* Interactive Magnetic Pills Layout */}
-            <div ref={linksRef} className="flex flex-col items-center gap-6 w-full">
-              {/* App Store Links (Primary) */}
-              <div className="flex flex-wrap justify-center gap-4 w-full">
-                <MagneticButton as="a" href="#" className="footer-glass-pill px-10 py-5 rounded-full text-white font-bold text-sm md:text-base flex items-center gap-3 group">
-                  <Calendar className="w-6 h-6 text-muted-foreground group-hover:text-foreground transition-colors" />
-                  Book a Demo
-                </MagneticButton>
-
-                <MagneticButton
-                  as="a"
-                  href="#contact"
-                  onClick={(e: React.MouseEvent<HTMLElement>) => {
-                    e.preventDefault();
-                    document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                  className="footer-glass-pill px-10 py-5 rounded-full text-foreground font-bold text-sm md:text-base flex items-center gap-3 group"
-                >
-                  <ArrowRight className="w-6 h-6 text-muted-foreground group-hover:text-foreground transition-colors" />
-                  Get Started
-                </MagneticButton>
-              </div>
-
-
-            </div>
-          </div>
-
-
-        </footer>
-      </div>
+        </div>
+      </footer>
     </>
   );
 }
