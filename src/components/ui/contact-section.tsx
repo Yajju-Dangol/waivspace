@@ -225,6 +225,35 @@ export function CinematicFooter() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+    
+    // Initialize Cal.com
+    (function (C: any, A: string, L: string) {
+      let p = function (a: any, ar: any) { a.q.push(ar); };
+      let d = C.document; C.Cal = C.Cal || function () {
+        let cal = C.Cal; let ar = arguments;
+        if (!cal.loaded) {
+          cal.ns = {}; cal.q = cal.q || [];
+          d.head.appendChild(d.createElement("script")).src = A;
+          cal.loaded = true;
+        }
+        if (ar[0] === L) {
+          const api = function () { p(api, arguments); };
+          const ns = ar[1];
+          api.q = api.q || [];
+          if(typeof ns === "string"){C.Cal.ns[ns] = api; return api;}
+          p(cal, ar); return;
+        }
+        p(cal, ar);
+      };
+    })(window, "https://app.cal.com/embed/embed.js", "init");
+
+    (window as any).Cal("init", {origin:"https://app.cal.com"});
+    (window as any).Cal("ui", {
+      "styles": {"branding": {"brandColor": "#000000"}},
+      "hideEventTypeDetails": false,
+      "layout": "month_view"
+    });
+
     if (!containerRef.current) return;
 
     const ctx = gsap.context(() => {
@@ -310,22 +339,14 @@ export function CinematicFooter() {
 
           <div ref={linksRef} className="flex flex-col items-center gap-6 w-full">
             <div className="flex flex-wrap justify-center gap-4 w-full">
-              <MagneticButton as="a" href="#" className="footer-glass-pill px-10 py-5 rounded-full text-white font-bold text-sm md:text-base flex items-center gap-3 group">
+              <MagneticButton 
+                as="button" 
+                data-cal-link="waivspace/30min"
+                data-cal-config='{"layout":"month_view"}'
+                className="footer-glass-pill px-10 py-5 rounded-full text-white font-bold text-sm md:text-base flex items-center gap-3 group"
+              >
                 <Calendar className="w-6 h-6 text-muted-foreground group-hover:text-foreground transition-colors" />
                 Book a Demo
-              </MagneticButton>
-
-              <MagneticButton
-                as="a"
-                href="#contact"
-                onClick={(e: React.MouseEvent<HTMLElement>) => {
-                  e.preventDefault();
-                  document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="footer-glass-pill px-10 py-5 rounded-full text-foreground font-bold text-sm md:text-base flex items-center gap-3 group"
-              >
-                <ArrowRight className="w-6 h-6 text-muted-foreground group-hover:text-foreground transition-colors" />
-                Get Started
               </MagneticButton>
             </div>
           </div>
