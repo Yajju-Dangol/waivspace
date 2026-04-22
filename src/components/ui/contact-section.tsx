@@ -281,8 +281,7 @@ export function CinematicFooter() {
           <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-transparent opacity-80 z-10" />
         </div>
         
-        <div className="footer-aurora absolute left-1/2 top-1/2 h-[60vh] w-[80vw] -translate-x-1/2 -translate-y-1/2 animate-footer-breathe rounded-[50%] blur-[80px] pointer-events-none z-0" />
-        <div className="footer-bg-grid absolute inset-0 z-0 pointer-events-none" />
+        <div className="footer-bg-grid absolute inset-0 z-0 pointer-events-none opacity-20" />
 
         {/* Giant background text */}
         <div

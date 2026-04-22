@@ -52,8 +52,7 @@ export function HeroSection({ isMobile }: HeroSectionProps) {
         </div>
       </div>
 
-      {/* Seamless transition fade */}
-      <div className="absolute bottom-0 left-0 w-full h-32 md:h-40 bg-gradient-to-t from-black via-black/80 to-transparent z-20 pointer-events-none" />
+      {/* Transition gradient removed for pure black theme */}
     </div>
   )
 }

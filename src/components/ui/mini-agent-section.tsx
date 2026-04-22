@@ -40,14 +40,7 @@ export function MiniAgentSection() {
 
   return (
     <div className="w-full min-h-[80vh] flex flex-col items-center justify-center text-white py-16 md:py-24 relative bg-black overflow-hidden">
-      {/* Seamless bottom fade overlay — dissolves into the next section */}
-      <div className="absolute bottom-0 left-0 w-full h-48 pointer-events-none z-20"
-        style={{ background: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.9) 70%, black 100%)' }}
-      />
-
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-white/5 rounded-full blur-[120px] opacity-50" />
-      </div>
+      {/* Gradients removed to keep section pure black */}
 
       <div className="max-w-4xl w-full z-10 flex flex-col items-center relative px-4 sm:px-6 md:px-8 lg:px-0">
 

@@ -269,7 +269,7 @@ function ServicesSectionGrid() {
         >
           Our Services
         </motion.p>
-        <h2 className="text-4xl md:text-5xl lg:text-5xl font-medium tracking-tight mb-16 leading-[1.3] py-2 text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-white/70 max-w-2xl">
+        <h2 className="text-4xl md:text-5xl lg:text-5xl font-medium tracking-tight mb-16 leading-[1.3] py-2 text-white max-w-2xl font-poppins text-center md:text-left mx-auto md:mx-0">
           Everything you need to automate growth
         </h2>
 
@@ -287,7 +287,7 @@ function ServicesSectionGrid() {
             <div className="flex-1 flex items-center justify-center py-4">
               <AutonomousAgentsAnim />
             </div>
-            <div className="mt-4">
+            <div className="mt-4 text-center md:text-left">
               <h3 className="font-poppins text-xl text-white font-medium">Autonomous AI Agents</h3>
               <p className="text-gray-400 text-sm mt-1 font-poppins leading-relaxed">Self-correcting agents that plan, execute, and complete complex multi-step goals without human oversight.</p>
             </div>
@@ -305,7 +305,7 @@ function ServicesSectionGrid() {
             <div className="flex-1 flex items-center justify-center">
               <AgenticChatbotsAnim />
             </div>
-            <div className="mt-4">
+            <div className="mt-4 text-center md:text-left">
               <h3 className="font-poppins text-xl text-white font-medium">Agentic Chatbots</h3>
               <p className="text-gray-400 text-sm mt-1 font-poppins">Intelligent interfaces that don't just talk—they execute actions in your tools.</p>
             </div>
@@ -323,8 +323,8 @@ function ServicesSectionGrid() {
             <div className="flex-1 flex items-center justify-center py-4">
               <AgenticDashboardAnim />
             </div>
-            <div className="mt-auto">
-              <h3 className="font-poppins text-xl text-white flex items-center gap-2 font-medium">
+            <div className="mt-auto text-center md:text-left">
+              <h3 className="font-poppins text-xl text-white flex items-center justify-center md:justify-start gap-2 font-medium">
                 Agentic Dashboard
               </h3>
               <p className="text-gray-400 text-sm mt-1 font-poppins leading-relaxed">A central mission control to monitor your AI workforce and visualize real-time performance.</p>
@@ -343,7 +343,7 @@ function ServicesSectionGrid() {
             <div className="flex-1 flex items-center justify-center">
               <TaskOrchestrationAnim />
             </div>
-            <div className="mt-4">
+            <div className="mt-4 text-center md:text-left">
               <h3 className="font-poppins text-xl text-white font-medium">Task Orchestration</h3>
               <p className="text-gray-400 text-sm mt-1 font-poppins">High-speed coordination between multiple agents to handle parallel logic.</p>
             </div>
@@ -361,8 +361,8 @@ function ServicesSectionGrid() {
             <div className="flex-1 flex items-center justify-center">
               <DataSyncSupportAnim />
             </div>
-            <div className="mt-4">
-              <h3 className="font-poppins text-xl text-white flex items-center gap-2 font-medium">
+            <div className="mt-4 text-center md:text-left">
+              <h3 className="font-poppins text-xl text-white flex items-center justify-center md:justify-start gap-2 font-medium">
                 Data-Sync Support
               </h3>
               <p className="text-gray-400 text-sm mt-1 font-poppins">24/7 agents trained on your entire knowledge base and live business data.</p>
@@ -381,7 +381,7 @@ function ServicesSectionGrid() {
             <div className="flex-1 flex items-center justify-center">
               <CustomWorkflowsAnim />
             </div>
-            <div className="mt-4">
+            <div className="mt-4 text-center md:text-left">
               <h3 className="font-poppins text-xl text-white font-medium">Custom Agentic Workflows</h3>
               <p className="text-gray-400 text-sm mt-1 font-poppins">Tailor-made automation paths built for your specific industry requirements.</p>
             </div>

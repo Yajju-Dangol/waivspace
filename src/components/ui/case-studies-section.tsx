@@ -56,7 +56,7 @@ function MetricStat({
   const { prefix, end, suffix, decimals } = parseMetricValue(value);
 
   return (
-    <div className="flex flex-col gap-2 text-left p-6">
+    <div className="flex flex-col gap-2 text-center sm:text-left p-6">
       <p
         className="text-2xl font-medium text-gray-900 dark:text-white sm:text-4xl"
         aria-label={`${label} ${value}`}
@@ -76,11 +76,11 @@ function MetricStat({
         )}
         {suffix}
       </p>
-      <p className="font-medium text-gray-900 dark:text-white text-left">
+      <p className="font-medium text-gray-900 dark:text-white text-center sm:text-left">
         {label}
       </p>
       {sub ? (
-        <p className="text-gray-600 dark:text-gray-400 text-left">{sub}</p>
+        <p className="text-gray-600 dark:text-gray-400 text-center sm:text-left">{sub}</p>
       ) : null}
     </div>
   );
@@ -135,7 +135,7 @@ export default function Casestudies() {
                 {/* Left: Image + Quote */}
                 <div
                   className={[
-                    "flex flex-col sm:flex-row gap-10 lg:col-span-2 lg:border-r text-left",
+                    "flex flex-col sm:flex-row gap-10 lg:col-span-2 lg:border-r items-center sm:items-start text-center sm:text-left",
                     reversed
                       ? "lg:order-2 lg:border-r-0 lg:border-l border-gray-800 lg:pl-12 xl:pl-16 lg:pr-0"
                       : "border-gray-800 lg:pr-12 xl:pr-16",
@@ -147,7 +147,7 @@ export default function Casestudies() {
                     className="aspect-[29/35] h-auto w-full max-w-60 rounded-2xl object-cover ring-1 ring-white/10 hover:scale-105 transition-all duration-300"
                     loading="lazy"
                   />
-                  <figure className="flex flex-col justify-between gap-8 text-left font-poppins">
+                  <figure className="flex flex-col justify-between gap-8 text-center sm:text-left font-poppins">
                     <div className="flex flex-col gap-4">
                       <h3 className="text-xl sm:text-2xl font-bold text-white font-poppins">
                         {study.title}
@@ -155,11 +155,11 @@ export default function Casestudies() {
                       <p className="text-gray-400 text-sm sm:text-base font-poppins leading-relaxed">
                         {study.description}
                       </p>
-                      <blockquote className="text-white italic text-base sm:text-lg border-l-2 border-white/20 pl-4 py-1 mt-2">
+                      <blockquote className="text-white italic text-base sm:text-lg border-l-0 sm:border-l-2 border-white/20 sm:pl-4 py-1 mt-2 text-center sm:text-left">
                         "{study.quote}"
                       </blockquote>
                     </div>
-                    <figcaption className="flex items-center gap-6 mt-4 text-left">
+                    <figcaption className="flex items-center justify-center sm:justify-start gap-6 mt-4">
                       <div className="flex flex-col gap-1">
                         <span className="text-md font-medium text-white">
                           {study.name}
@@ -175,7 +175,7 @@ export default function Casestudies() {
                 {/* Right: Metrics */}
                 <div
                   className={[
-                    "grid grid-cols-1 gap-10 self-center text-left",
+                    "grid grid-cols-1 gap-10 self-center text-center sm:text-left",
                     reversed ? "lg:order-1" : "",
                   ].join(" ")}
                 >
