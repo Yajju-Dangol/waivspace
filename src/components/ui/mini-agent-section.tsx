@@ -39,7 +39,7 @@ export function MiniAgentSection() {
   };
 
   return (
-    <div className="w-full min-h-[80vh] flex flex-col items-center justify-center  text-white  pb-24 relative bg-black">
+    <div className="w-full min-h-[80vh] flex flex-col items-center justify-center text-white py-16 md:py-24 relative bg-black overflow-hidden">
       {/* Seamless bottom fade overlay — dissolves into the next section */}
       <div className="absolute bottom-0 left-0 w-full h-48 pointer-events-none z-20"
         style={{ background: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.9) 70%, black 100%)' }}
@@ -49,7 +49,7 @@ export function MiniAgentSection() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-white/5 rounded-full blur-[120px] opacity-50" />
       </div>
 
-      <div className="max-w-4xl w-full z-10 flex flex-col items-center relative">
+      <div className="max-w-4xl w-full z-10 flex flex-col items-center relative px-4 sm:px-6 md:px-8 lg:px-0">
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -60,7 +60,7 @@ export function MiniAgentSection() {
             <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
             Agency Audit
           </div>
-          <h2 className="text-4xl md:text-6xl font-medium font-poppins mb-6 uppercase tracking-tight">
+          <h2 className="text-3xl md:text-6xl font-medium font-poppins mb-6 uppercase tracking-tight leading-[1.1]">
             Stop Manual Work.<br />
             <span className="text-white">
               Start Scaling.
@@ -82,20 +82,20 @@ export function MiniAgentSection() {
               className="w-full max-w-2xl relative"
             >
               <div className="relative flex items-center group">
-                <Search className="absolute left-6 w-6 h-6 text-gray-500 group-focus-within:text-white transition-colors" />
+                <Search className="absolute left-5 md:left-6 w-5 h-5 md:w-6 md:h-6 text-gray-500 group-focus-within:text-white transition-colors" />
                 <input
                   type="url"
                   value={url}
                   onChange={(e) => setUrl(e.target.value)}
                   placeholder="https://yourcompany.com"
                   required
-                  className="w-full h-16 md:h-20 bg-white/5 border-2 border-white/10 rounded-full pl-16 pr-40 text-lg md:text-xl text-white outline-none focus:border-white/50 focus:bg-white/10 transition-all font-poppins placeholder:text-gray-600 shadow-2xl shadow-black/20"
+                  className="w-full h-16 md:h-20 bg-white/5 border-2 border-white/10 rounded-full pl-14 md:pl-16 pr-32 md:pr-40 text-base md:text-xl text-white outline-none focus:border-white/50 focus:bg-white/10 transition-all font-poppins placeholder:text-gray-600 shadow-2xl shadow-black/20"
                 />
                 <button
                   type="submit"
-                  className="absolute right-2 h-12 md:h-16 px-6 md:px-8 bg-white text-black rounded-full font-medium font-poppins text-base md:text-lg hover:bg-gray-200 transition-colors flex items-center gap-2"
+                  className="absolute right-2 h-12 md:h-16 px-5 md:px-8 bg-white text-black rounded-full font-medium font-poppins text-sm md:text-lg hover:bg-gray-200 transition-colors flex items-center gap-2"
                 >
-                  Start Scan <ArrowRight className="w-4 h-4 hidden sm:block" />
+                  <span className="md:inline">Start Scan</span> <ArrowRight className="w-4 h-4 hidden sm:block" />
                 </button>
               </div>
               {error && <p className="text-red-400 text-center mt-4 font-poppins">{error}</p>}
@@ -167,13 +167,13 @@ export function MiniAgentSection() {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.8 }}
                   onSubmit={handleSave}
-                  className="bg-white/5 border border-white/10 rounded-2xl p-8 max-w-xl mx-auto backdrop-blur-md"
+                  className="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 max-w-xl mx-auto backdrop-blur-md"
                 >
                   <h4 className="text-xl font-medium font-poppins mb-2 text-center">Uncover the full execution plan</h4>
                   <p className="text-gray-400 text-sm text-center mb-6 font-poppins">
                     Enter your email to receive this exact blueprint and a free consultation to implement it.
                   </p>
-                  <div className="flex gap-2">
+                  <div className="flex flex-col sm:flex-row gap-3">
                     <input
                       type="email"
                       value={email}
@@ -184,7 +184,7 @@ export function MiniAgentSection() {
                     />
                     <button
                       type="submit"
-                      className="bg-white text-black px-6 rounded-lg font-medium font-poppins hover:bg-gray-200 transition-colors"
+                      className="bg-white text-black px-6 py-3 sm:py-0 rounded-lg font-medium font-poppins hover:bg-gray-200 transition-colors whitespace-nowrap"
                     >
                       Send Blueprint
                     </button>

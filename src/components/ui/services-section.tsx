@@ -149,13 +149,20 @@ function AgenticDashboardAnim() {
             transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
           />
           <motion.circle
-            r="2"
+            cx={0}
+            cy={20}
+            r={2}
             fill="white"
+            initial={{ cx: 0, cy: 20 }}
             animate={{
               cx: [0, 100],
-              cy: [20, 20], // Simplified cy to match path
+              cy: [20, 20],
             }}
-            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "linear"
+            }}
           />
         </svg>
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-black/40 pointer-events-none" />

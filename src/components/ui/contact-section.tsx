@@ -126,6 +126,18 @@ const STYLES = `
   background-clip: text;
   filter: drop-shadow(0px 0px 20px color-mix(in oklch, var(--foreground) 15%, transparent));
 }
+
+.curtain-wrapper {
+  clip-path: polygon(0% 0, 100% 0%, 100% 100%, 0 100%);
+}
+
+@media (max-width: 767px) {
+  .curtain-wrapper {
+    clip-path: none !important;
+    height: auto !important;
+    min-height: 80vh;
+  }
+}
 `;
 
 // -------------------------------------------------------------------------
@@ -228,68 +240,94 @@ export function CinematicFooter() {
     if (typeof window === "undefined") return;
     if (!wrapperRef.current) return;
 
-    // React strict mode compatible GSAP context cleanup
-    const ctx = gsap.context(() => {
-      // Background Parallax
-      gsap.fromTo(
-        giantTextRef.current,
-        { y: "10vh", scale: 0.8, opacity: 0 },
-        {
-          y: "0vh",
-          scale: 1,
-          opacity: 1,
-          ease: "power1.out",
-          scrollTrigger: {
-            trigger: wrapperRef.current,
-            start: "top 80%",
-            end: "bottom bottom",
-            scrub: 1,
-          },
-        }
-      );
+    // gsap.matchMedia for clean breakpoint-specific logic
+    const mm = gsap.matchMedia();
+    
+    mm.add({
+      isDesktop: "(min-width: 768px)",
+      isMobile: "(max-width: 767px)"
+    }, (context) => {
+      const { isDesktop } = context.conditions as any;
 
-      // Staggered Content Reveal
-      gsap.fromTo(
-        [headingRef.current, linksRef.current],
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          stagger: 0.15,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: wrapperRef.current,
-            start: "top 40%",
-            end: "bottom bottom",
-            toggleActions: "play none none reverse",
-          },
-        }
-      );
-
-      // Switch footer from fixed → relative when curtain is fully open.
-      // This prevents the next section (ModernAnimatedFooter) from creating
-      // a second curtain-closing effect — it just scrolls normally.
-      // Switch footer from fixed → relative when curtain is fully open.
-      ScrollTrigger.create({
-        trigger: wrapperRef.current,
-        start: "top top",
-        anticipatePin: 1,
-        onEnter: () => {
-          const el = footerRef.current;
-          if (el) {
-            gsap.set(el, { position: "relative", bottom: "auto", left: "auto" });
+      if (isDesktop) {
+        // Background Parallax (Desktop Only)
+        gsap.fromTo(
+          giantTextRef.current,
+          { y: "10vh", scale: 0.8, opacity: 0 },
+          {
+            y: "0vh",
+            scale: 1,
+            opacity: 1,
+            ease: "power1.out",
+            scrollTrigger: {
+              trigger: wrapperRef.current,
+              start: "top 80%",
+              end: "bottom bottom",
+              scrub: 1,
+            },
           }
-        },
-        onLeaveBack: () => {
-          const el = footerRef.current;
-          if (el) {
-            gsap.set(el, { position: "fixed", bottom: 0, left: 0 });
-          }
-        },
-      });
-    }, wrapperRef);
+        );
 
-    return () => ctx.revert();
+        // Staggered Content Reveal
+        gsap.fromTo(
+          [headingRef.current, linksRef.current],
+          { y: 50, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.15,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: wrapperRef.current,
+              start: "top 40%",
+              end: "bottom bottom",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+
+        // Switch footer from fixed → relative when curtain is fully open (Desktop Only)
+        ScrollTrigger.create({
+          trigger: wrapperRef.current,
+          start: "top top",
+          anticipatePin: 1,
+          onEnter: () => {
+            const el = footerRef.current;
+            if (el) {
+              gsap.set(el, { position: "relative", bottom: "auto", left: "auto" });
+            }
+          },
+          onLeaveBack: () => {
+            const el = footerRef.current;
+            if (el) {
+              gsap.set(el, { position: "fixed", bottom: 0, left: 0 });
+            }
+          },
+        });
+      } else {
+        // Mobile simple logic: Normal Flow
+        gsap.set(footerRef.current, { position: "relative", bottom: "auto", left: "auto", height: "auto", minHeight: "80vh" });
+        
+        // Simple reveal for mobile
+        gsap.fromTo(
+          [headingRef.current, linksRef.current],
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: wrapperRef.current,
+              start: "top 85%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      }
+    });
+
+    return () => mm.revert();
   }, []);
 
 
@@ -305,13 +343,12 @@ export function CinematicFooter() {
       */}
       <div
         ref={wrapperRef}
-        className="relative h-screen w-full"
-        style={{ clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" }}
+        className="relative h-screen w-full curtain-wrapper"
       >
         {/* Fixed footer revealed via curtain — switches to relative after full reveal */}
         <footer
           ref={footerRef}
-          className="fixed bottom-0 left-0 flex h-screen w-full flex-col justify-between overflow-hidden bg-black text-foreground cinematic-footer-wrapper"
+          className="md:fixed relative bottom-0 left-0 flex h-screen md:h-screen w-full flex-col justify-between overflow-hidden bg-black text-foreground cinematic-footer-wrapper"
         >
 
           {/* Background Layers */}
