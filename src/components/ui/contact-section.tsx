@@ -6,7 +6,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "../../lib/utils";
 import { GLSLHills } from "./glsl-hills";
-import { Calendar, ArrowRight } from "lucide-react";
+import { Calendar } from "lucide-react";
 
 // Register ScrollTrigger safely for React
 if (typeof window !== "undefined") {
@@ -239,7 +239,7 @@ export function CinematicFooter() {
         if (ar[0] === L) {
           const api = function () { p(api, arguments); };
           const ns = ar[1];
-          api.q = api.q || [];
+          (api as any).q = (api as any).q || [];
           if(typeof ns === "string"){C.Cal.ns[ns] = api; return api;}
           p(cal, ar); return;
         }
