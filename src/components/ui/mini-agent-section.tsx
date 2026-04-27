@@ -177,7 +177,7 @@ export function MiniAgentSection() {
                     />
                     <button
                       type="submit"
-                      className="bg-white text-black px-6 py-3 sm:py-0 rounded-lg font-medium font-poppins hover:bg-gray-200 transition-colors whitespace-nowrap"
+                      className="bg-white text-black px-6 py-3 rounded-lg font-medium font-poppins hover:bg-gray-200 transition-colors whitespace-nowrap"
                     >
                       Send Blueprint
                     </button>

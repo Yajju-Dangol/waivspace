@@ -5,7 +5,7 @@ import './App.css'
 import Loader from './components/ui/loader'
 import { NavBar } from './components/ui/tube-light-navbar'
 import { Info, Server, FolderGit2, Bot, Mail } from 'lucide-react'
-import { FaTwitter as Twitter, FaLinkedinIn as Linkedin, FaGithub as Github } from "react-icons/fa6";
+import { FaFacebookF as Facebook, FaInstagram as Instagram, FaLinkedinIn as Linkedin, FaGithub as Github, FaEnvelope as Envelope } from "react-icons/fa6";
 
 const GLSLHills = lazy(() => import('./components/ui/glsl-hills').then(m => ({ default: m.GLSLHills })))
 const AboutUsSection = lazy(() => import('./components/ui/about-us-section'))
@@ -201,10 +201,10 @@ function App() {
                 brandName="WAIV"
                 brandDescription="Building the autonomous infrastructure for the next era of digital industry."
                 socialLinks={[
-                  { icon: <Twitter />, href: "#", label: "Twitter" },
-                  { icon: <Linkedin />, href: "#", label: "LinkedIn" },
-                  { icon: <Github />, href: "#", label: "GitHub" },
-                  { icon: <Mail />, href: "#", label: "Email" },
+                  { icon: <Facebook />, href: "https://www.facebook.com/waivspace", label: "Facebook" },
+                  { icon: <Instagram />, href: "https://www.instagram.com/waivspace/", label: "Instagram" },
+                  { icon: <Linkedin />, href: "https://www.linkedin.com/company/waivspace", label: "LinkedIn" },
+                  { icon: <Envelope />, href: "mailto:contact@waiv.space", label: "Email" },
                 ]}
                 navLinks={[
                   { label: "About Us", href: "#about" },

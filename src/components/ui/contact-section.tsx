@@ -6,7 +6,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "../../lib/utils";
 import { GLSLHills } from "./glsl-hills";
-import { Calendar } from "lucide-react";
+import { Calendar, MessageSquare } from "lucide-react";
 
 // Register ScrollTrigger safely for React
 if (typeof window !== "undefined") {
@@ -254,6 +254,14 @@ export function CinematicFooter() {
       "layout": "month_view"
     });
 
+    // Initialize Tally
+    if (!document.querySelector('script[src="https://tally.so/widgets/embed.js"]')) {
+      const script = document.createElement("script");
+      script.src = "https://tally.so/widgets/embed.js";
+      script.async = true;
+      document.body.appendChild(script);
+    }
+
     if (!containerRef.current) return;
 
     const ctx = gsap.context(() => {
@@ -347,6 +355,19 @@ export function CinematicFooter() {
               >
                 <Calendar className="w-6 h-6 text-muted-foreground group-hover:text-foreground transition-colors" />
                 Book a Demo
+              </MagneticButton>
+
+              <MagneticButton 
+                as="button" 
+                data-tally-open="ob0zaM" 
+                data-tally-layout="modal" 
+                data-tally-width="500" 
+                data-tally-emoji-text="👋" 
+                data-tally-emoji-animation="wave"
+                className="footer-glass-pill px-10 py-5 rounded-full text-white font-bold text-sm md:text-base flex items-center gap-3 group"
+              >
+                <MessageSquare className="w-6 h-6 text-muted-foreground group-hover:text-foreground transition-colors" />
+                Contact Us
               </MagneticButton>
             </div>
           </div>
