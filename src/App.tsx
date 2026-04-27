@@ -1,4 +1,5 @@
 import { useEffect, useState, lazy, Suspense } from 'react'
+import { Helmet } from 'react-helmet-async'
 import Lenis from '@studio-freight/lenis'
 import { AnimatePresence, motion } from 'framer-motion'
 import './App.css'
@@ -122,6 +123,11 @@ function App() {
         animate={{ opacity: isLoading ? 0 : 1 }}
         transition={{ duration: 1, delay: 0.5 }}
       >
+        <Helmet>
+          <title>Waiv Space | AI Automation Agency</title>
+          <meta name="description" content="Custom AI agents and workflow automation for modern businesses. Scale your business with autonomous multi-agent systems." />
+          <meta name="keywords" content="AI, Automation, Agency, Multi-Agent Systems, Business Growth, Autonomous Operations" />
+        </Helmet>
         <Suspense fallback={null}>
           <GLSLHills />
         </Suspense>
