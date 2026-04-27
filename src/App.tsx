@@ -4,8 +4,8 @@ import { AnimatePresence, motion } from 'framer-motion'
 import './App.css'
 import Loader from './components/ui/loader'
 import { NavBar } from './components/ui/tube-light-navbar'
-import { Info, Server, FolderGit2, Bot, Mail } from 'lucide-react'
-import { FaFacebookF as Facebook, FaInstagram as Instagram, FaLinkedinIn as Linkedin, FaGithub as Github, FaEnvelope as Envelope } from "react-icons/fa6";
+import { Info, Server, FolderGit2, Bot } from 'lucide-react'
+import { FaFacebookF as Facebook, FaInstagram as Instagram, FaLinkedinIn as Linkedin, FaEnvelope as Envelope } from "react-icons/fa6";
 
 const GLSLHills = lazy(() => import('./components/ui/glsl-hills').then(m => ({ default: m.GLSLHills })))
 const AboutUsSection = lazy(() => import('./components/ui/about-us-section'))
