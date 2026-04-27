@@ -10,7 +10,7 @@ export default defineConfig({
     tailwindcss(),
     sitemap({
       hostname: 'https://waiv.space',
-      dynamicRoutes: ['/']
+      exclude: ['/google15826a425185b7b4']
     })
   ],
   build: {
